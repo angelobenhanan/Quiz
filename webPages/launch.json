@@ -7,8 +7,14 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open Quiz_frontend.html",
-            "file": "/Users/angelofuun/Quiz/Quiz_frontend.html"
+            "name": "Open MainPage.html",
+            "file": "/Users/angelofuun/Quiz/MainPage.html"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open TryoutDetails.html",
+            "file": "/Users/angelofuun/Quiz/TryoutDetails.html"
         }
     ]
 }
