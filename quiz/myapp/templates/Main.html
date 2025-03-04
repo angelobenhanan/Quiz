@@ -7,16 +7,20 @@
         Tryouts
     </b>
 
-    {% for tryout in tryouts %}
-    <div style = "background-color: indianred; margin-top: 0.5cm; ">
+    {% if tryoutList %}
+        {% for tryout in tryoutList %}
+        <div style = "background-color: indianred; margin-top: 0.5cm; ">
+            <a href = "{% url "tryoutDetails" tryout.id %}">
+                <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
+                    {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }}
+                </b>
+            </a>
+        </div>
+        {% endfor %}
+    {% else %}
         <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
-            {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }}
+            No quiz to show
         </b>
-
-        <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 75%;">
-            {{ tryout.tryoutDescp }}
-        </p>
-    </div>
-    {% endfor %}
+    {% endif %}
 
 {% endblock %}

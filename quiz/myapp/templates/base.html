@@ -11,55 +11,16 @@
         <title> 
             {% block title %} {% endblock %} 
         </title>
-
-        <style>
-            .topnav {
-              overflow: hidden;
-              background-color: darkslategray;
-              top: 0;
-              left: 0;
-              width: 100%;
-              padding: 0;
-              margin: 0;
-            }
-            .topnav a {
-              float: left;
-              color: aliceblue;
-              text-align: center;
-              font-family: Verdana, Geneva, Tahoma, sans-serif;
-              font-size: 100%;
-              padding: 0.5cm;
-            }
-
-            .topnav a:hover {
-              background-color: indianred;
-              color: aliceblue;
-            }
-
-            .topnav a.active {
-              background-color: lightslategray;
-              border: 0.25cm;
-              border-color: darkslategray;
-              color: aliceblue;
-            }
-        </style>
     </head>
 
-    <body style = "background-color:lightslategray;">
-        <!-- Navigation -->
-        <div class = "topnav" style = "background-color:darkslategrey;">
-            <!-- Navigation ke home page -->
-            <a ({% block main %} {% endblock %}) href= "{% url "home" %}">
-                Home
-            </a>
+    <header style = "background-color: darkslategrey; width: 100%; height: 4cm; position: fixed; left: 0; top: 0;">
+        <a style = "font-size: 300%; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: left; color: aliceblue; margin: 1cm; margin-top: 2cm;"
+            href = "{% url "home" %}">
+            FUN QUIZ
+        </a>
+    </header>
 
-            <!-- Navigation ke tryout details -->
-            <a ({% block details %} {% endblock %}) href = "{% url "tryoutDetails" %}">
-                Tryout Details
-            </a>
-            
-        </div>
-
+    <body style = "background-color:lightslategray; margin-top: 4.5cm">
         <div class="container">
             {% block content %} {% endblock %}
         </div>

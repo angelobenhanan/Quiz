@@ -1,10 +1,11 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import *
 from .models import *
 
 # Create your views here.
 def home(request):
-    tryout = TryoutList.objects.all()
-    return render(request, "Main.html", {"tryouts": tryout})
+    tryoutList = Tryout.objects.all()
+    return render(request, "Main.html", {"tryoutList": tryoutList})
 
-def tryoutDetails(request):
-    return render(request, "TryoutDetails.html")
+def tryoutDetails(request, tryout_id):
+    tryoutViewed = get_object_or_404(Tryout, pk=tryout_id)
+    return render(request, "TryoutDetails.html", {"tryoutViewed": tryoutViewed})
