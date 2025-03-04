@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang = "en">
     <head>
         <meta 
-            name="viewport" 
-            content="width=device-width, initial-scale=1.0">
+            name = "viewport" 
+            content = "width = device-width, initial-scale = 1.0">
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"  rel="stylesheet" />
+        <link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"  rel = "stylesheet" />
   
         <!-- Nama tab -->
         <title> 
@@ -14,19 +14,27 @@
     </head>
 
     <header style = "background-color: darkslategrey; width: 100%; height: 4cm; position: fixed; left: 0; top: 0;">
-        <a style = "font-size: 300%; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: left; color: aliceblue; margin: 1cm; margin-top: 2cm;"
+        <a style = "font-size: 300%; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: left; color: aliceblue; margin: 1cm; padding-top: 1cm;"
             href = "{% url "home" %}">
             FUN QUIZ
         </a>
     </header>
 
-    <body style = "background-color:lightslategray; margin-top: 4.5cm">
-        <div class="container">
+    <body style = "overflow-x: hidden; overflow-y: auto; background-color: lightslategray; margin-top: 4.5cm; margin-bottom: 4.5cm;">
+        <div class = "container">
             {% block content %} {% endblock %}
         </div>
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" ></script>
+        <script src = "https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" ></script>
+        <script>
+            window.onscroll = function() {myFunction()};3
+            function myFunction() {
+              var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+              var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+              var scrolled = (winScroll / height) * 100;
+            }
+            </script>
 
     </body>
 

@@ -1,13 +1,38 @@
 {% extends "base.html" %}
 
-{% block details %} class = "active" {% endblock %}
-
 {% block content %} 
-    <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 1cm; padding-top: 2cm; font-size: 150%;">
-        Tryout Details
-    </b>
+    <h1 style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 2cm; font-size: 200%;">
+        {{ tryoutViewed.tryoutName }}
+    </h1>
 
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 75%;">
-        {{ tryoutViewed.tryoutDescp }}
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 1cm; font-size: 150%;">
+        Number of questions: 
+        {{ tryoutViewed.tryoutNums }}
     </p>
+
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 150%;">
+        Tryout description:
+        {{ tryoutViewed.tryoutDesc }}
+    </p>
+
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 150%;">
+        Edit tryout
+    </p>
+
+    <div style = "background-color: indianred; margin-top: 0.5cm; width: 5cm;">
+        <a href = "{% url "editor" tryoutViewed.id %}">
+            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
+                Edit Tryout
+            </b>
+        </a>
+    </div>
+
+    <div style = "background-color: indianred; margin-top: 0.5cm; width: 5cm;">
+        <a href = "{% url "delete" tryoutViewed.id %}">
+            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
+                Delete Tryout
+            </b>
+        </a>
+    </div>
+
 {% endblock %}

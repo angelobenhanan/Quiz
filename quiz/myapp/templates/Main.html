@@ -1,15 +1,19 @@
 {% extends "base.html" %}
 
-{% block main %} class = "active" {% endblock %}
-
 {% block content %}
-    <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 1cm; padding-top: 2cm; font-size: 150%;">
+    <h1 style = "color: aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 1cm; padding-top: 3cm; font-size: 150%;">
         Tryouts
-    </b>
+    </h1>
+
+    <a href = "{% url "creation" %}" style = "color: aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 2cm; font-size: 100%;">
+        <div class = "container" style = "background-color: indianred; padding: 1cm; width: 8cm; height: 2.5cm; align: center; text-align: center;">
+            Create New Tryout
+        </div>
+    </a>
 
     {% if tryoutList %}
         {% for tryout in tryoutList %}
-        <div style = "background-color: indianred; margin-top: 0.5cm; ">
+        <div style = "background-color: indianred; margin-top: 0.5cm; width: 7cm; border: 1cm;">
             <a href = "{% url "tryoutDetails" tryout.id %}">
                 <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
                     {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }}

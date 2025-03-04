@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 2cm; font-size: 200%;">
+        Tryout Creation Form
+    </h1>
+
+    <form action = "" method = "post" style = "padding-top: 2cm;">
+        {% csrf_token %}
+        <label for = "name">
+            Change Name:
+        </label>
+        {{ editorForm.tryoutName }}
+
+        <label for = "desc">
+            Change Description:
+        </label>
+        {{ editorForm.tryoutDesc }}
+
+        <input type = "submit" value = "Edit">
+    </form>
+{% endblock %}
