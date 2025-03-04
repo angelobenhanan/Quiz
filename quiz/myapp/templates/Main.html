@@ -2,8 +2,21 @@
 
 {% block main %} class = "active" {% endblock %}
 
-{% block content %} 
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 1cm;">
+{% block content %}
+    <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 1cm; padding-top: 2cm; font-size: 150%;">
         Tryouts
-    </p>
+    </b>
+
+    {% for tryout in tryouts %}
+    <div style = "background-color: indianred; margin-top: 0.5cm; ">
+        <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
+            {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }}
+        </b>
+
+        <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 75%;">
+            {{ tryout.tryoutDescp }}
+        </p>
+    </div>
+    {% endfor %}
+
 {% endblock %}

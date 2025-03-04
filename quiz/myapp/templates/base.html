@@ -13,14 +13,6 @@
         </title>
 
         <style>
-            .tryoutBox {
-              background-color: indianred;
-              margin-left: 2cm;
-              margin-right: 2cm;
-              margin-top: 0.5cm;
-              margin-top: 1cm;
-            }
-
             .topnav {
               overflow: hidden;
               background-color: darkslategray;
@@ -34,7 +26,6 @@
               float: left;
               color: aliceblue;
               text-align: center;
-              text-decoration: none;
               font-family: Verdana, Geneva, Tahoma, sans-serif;
               font-size: 100%;
               padding: 0.5cm;
@@ -66,6 +57,7 @@
             <a ({% block details %} {% endblock %}) href = "{% url "tryoutDetails" %}">
                 Tryout Details
             </a>
+            
         </div>
 
         <div class="container">
