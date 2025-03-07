@@ -5,17 +5,22 @@
         Tryout Creation Form
     </h1>
 
-    <form action = "" method = "post" style = "padding-top: 2cm;">
+    <form method = "POST" style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%; padding-top: 2cm;">
         {% csrf_token %}
-        <label for = "name">
+        <label>
             Change Name:
         </label>
         {{ editorForm.tryoutName }}
 
-        <label for = "desc">
+        <label>
             Change Description:
         </label>
         {{ editorForm.tryoutDesc }}
+
+        <label>
+            Change Category:
+        </label>
+        {{ editorForm.tryoutCategory }}
 
         <input type = "submit" value = "Edit">
     </form>

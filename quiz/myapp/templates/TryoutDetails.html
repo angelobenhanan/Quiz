@@ -5,17 +5,36 @@
         {{ tryoutViewed.tryoutName }}
     </h1>
 
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 1cm; font-size: 150%;">
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%; padding-top: 1cm;">
+        Date of creation:
+        {{ tryoutViewed.creationDate }}
+    </p>
+
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%;">
+        Category:
+        {{ tryoutViewed.tryoutCategory }}
+    </p>
+
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%;">
         Number of questions: 
         {{ tryoutViewed.tryoutNums }}
     </p>
 
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 150%;">
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%;">
         Tryout description:
         {{ tryoutViewed.tryoutDesc }}
     </p>
 
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 150%;">
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%;">
+        Tryout submission status:
+        {% if tryoutViewed.workedOn == True %}
+            Has been worked on
+        {% else %}
+            No work recorded
+        {% endif %}
+    </p>
+
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%;">
         Edit tryout
     </p>
 

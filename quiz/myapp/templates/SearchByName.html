@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
+{% block title %} 
+    Search Quiz
+{% endblock %} 
+
 {% block styles %}
-.topnav {
+    .topnav {
     overflow: hidden;
     background-color: darkslategrey;
     }
@@ -37,6 +41,13 @@
 
 {% block extraHead %}
     <div class = "topnav">
+        <a class = "active" href = "{% url "searchByName" name %}">
+            Search By Quiz Name
+        </a>
+        <a href = "{% url "searchByCategory" name %}" style = "color: aliceblue;">
+            Search By Quiz Category
+        </a>
+
         <div style = "float: right">
             <form action = "">
                 <input type = "text" name = "searchBy" placeholder = "Search..." value = "{{request.GET.searchBy}}">
@@ -46,31 +57,22 @@
     </div>
 {% endblock %}
 
-{% block content %}
-    <h1 style = "color: aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 1cm; padding-top: 3cm; font-size: 150%;">
-        Tryouts
-    </h1>
-
-    <a href = "{% url "creation" %}" style = "color: aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 2cm; font-size: 150%;">
-        <div class = "container" style = "background-color: indianred; padding: 1cm; width: 8cm; height: 2.5cm; align: center; text-align: center;">
-            Create New Tryout
-        </div>
-    </a>
-
+{% block content %} 
     {% if tryoutList %}
         {% for tryout in tryoutList %}
-        <div style = "background-color: indianred; margin-top: 0.5cm; width: 7cm; border: 1cm;">
-            <a href = "{% url "tryoutDetails" tryout.id %}">
-                <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
-                    {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }}
-                </b>
-            </a>
-        </div>
+            {% if name.strip in tryout.tryoutName.strip %}
+                <div style = "background-color: indianred; margin-top: 0.5cm; width: 7cm; border: 1cm;">
+                    <a href = "{% url "tryoutDetails" tryout.id %}">
+                        <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
+                            {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }}
+                        </b>
+                    </a>
+                </div>
+            {% endif %}
         {% endfor %}
     {% else %}
         <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
             No quiz to show
         </b>
     {% endif %}
-
 {% endblock %}

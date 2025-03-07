@@ -13,14 +13,47 @@
         </title>
     </head>
 
-    <header style = "background-color: darkslategrey; width: 100%; height: 4cm; position: fixed; left: 0; top: 0;">
+    <style>
+        header {
+            background-color: darkslategrey; 
+            width: 100%; 
+            height: 4cm; 
+            position: fixed; 
+            left: 0; 
+            top: 0;
+        }
+
+        body {
+            overflow-x: hidden; 
+            overflow-y: auto; 
+            background-color: 
+            lightslategray; 
+            margin-top: 4.5cm; 
+            margin-bottom: 4.5cm;
+        }
+
+        footer {
+            background-color: darkslategrey; 
+            width: 100%; 
+            height: 3.25cm; 
+            position: fixed; 
+            left: 0; 
+            bottom: 0;
+        }
+
+        {% block styles %} {% endblock %}
+    </style>
+
+    <header>
         <a style = "font-size: 300%; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: left; color: aliceblue; margin: 1cm; padding-top: 1cm;"
             href = "{% url "home" %}">
             FUN QUIZ
         </a>
+
+        {% block extraHead %} {% endblock %}
     </header>
 
-    <body style = "overflow-x: hidden; overflow-y: auto; background-color: lightslategray; margin-top: 4.5cm; margin-bottom: 4.5cm;">
+    <body>
         <div class = "container">
             {% block content %} {% endblock %}
         </div>
@@ -39,8 +72,7 @@
     </body>
 
     <!-- Footer halaman berisi identitas -->
-    <footer style = "background-color: darkslategrey; width: 100%; height: 3.25cm; position: fixed; left: 0; bottom: 0;">
-
+    <footer>
         <p style = "color:aliceblue; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center; font-size:125%;">
             Author: Angelo Benhanan Abinaya Fuun
         </p>

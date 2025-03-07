@@ -1,10 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Tryout
 from .forms import TryoutCreationForm, TryoutEditingForm
+import datetime
 
 # Create your views here.
 def home(request):
     tryoutList = Tryout.objects.all()
+    if request.method == "GET":
+        tryoutSearch = request.GET.get("searchBy")
+        if (tryoutSearch):
+            return render(request, "SearchByName.html", {"tryoutList": tryoutList, "name": tryoutSearch})
     return render(request, "Main.html", {"tryoutList": tryoutList})
 
 def tryoutDetails(request, tryout_id):
@@ -13,12 +18,14 @@ def tryoutDetails(request, tryout_id):
 
 def createTryout(request):
     if request.method == "POST":
-        creationForm = TryoutCreationForm(request.POST)
+        creationForm = TryoutCreationForm(request.POST, request.FILES)
 
         if (creationForm.is_valid()):
             name = creationForm.cleaned_data["tryoutName"]
             desc = creationForm.cleaned_data["tryoutDesc"]
-            newTryout = Tryout(tryoutName = name, tryoutNums = 0, tryoutDesc = desc)
+            category = creationForm.data.get("tryoutCategory")
+            date = datetime.date.today()
+            newTryout = Tryout(tryoutName = name, tryoutNums = 0, tryoutDesc = desc, tryoutCategory = category, creationDate = date, workedOn = False)
             newTryout.save()
             return render(request, "TryoutDetails.html", {"tryoutViewed": newTryout})
     else:
@@ -33,8 +40,10 @@ def editTryout(request, tryout_id):
         if (editorForm.is_valid()):
             name = editorForm.cleaned_data["tryoutName"]
             desc = editorForm.cleaned_data["tryoutDesc"]
+            category = editorForm.cleaned_data["tryoutCategory"]
             tryoutChanged.tryoutName = name
             tryoutChanged.tryoutDesc = desc
+            tryoutChanged.tryoutCategory = category
             tryoutChanged.save()
             return render(request, "TryoutDetails.html", {"tryoutViewed": tryoutChanged})
     else:
@@ -46,3 +55,19 @@ def deleteTryout(request, tryout_id):
     tryout.delete()
     tryoutList = Tryout.objects.all()
     return render(request, "Main.html", {"tryoutList": tryoutList})
+
+def searchByName(request, name):
+    tryoutList = Tryout.objects.all()
+    if request.method == "GET":
+        tryoutSearch = request.GET.get("searchBy")
+        if (tryoutSearch):
+            return render(request, "SearchByName.html", {"tryoutList": tryoutList, "name": tryoutSearch})
+    return render(request, "SearchByName.html", {"tryoutList": tryoutList, "name": name})
+
+def searchByCategory(request, category):
+    tryoutList = Tryout.objects.all()
+    if request.method == "GET":
+        tryoutSearch = request.GET.get("searchBy")
+        if (tryoutSearch):
+            return render(request, "SearchByName.html", {"tryoutList": tryoutList, "name": tryoutSearch})
+    return render(request, "SearchByCategory.html", {"tryoutList": tryoutList, "category": category})

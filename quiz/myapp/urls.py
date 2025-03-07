@@ -7,4 +7,6 @@ urlpatterns = [
     path("tryoutCreation", views.createTryout, name = "creation"),
     path("editor/<int:tryout_id>", views.editTryout, name = "editor"),
     path("delete/<int:tryout_id>", views.deleteTryout, name = "delete"),
+    path("searchByName/<name>", views.searchByName, name = "searchByName"),
+    path("searchByCategory/<category>", views.searchByCategory, name = "searchByCategory"),
 ]
