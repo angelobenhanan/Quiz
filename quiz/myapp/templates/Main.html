@@ -5,21 +5,6 @@
     overflow: hidden;
     background-color: darkslategrey;
     }
-    
-    .topnav a {
-        float: left;
-        display: block;
-        text-align: center;
-        text-decoration: none;
-        font-size: 100%%;
-        padding: 0.5cm;
-        color: aliceblue;
-    }
-    
-    .topnav a.active {
-        background-color: indianred;
-        color: aliceblue;
-    }
 
     .topnav input[type=text] {
         font-size: 100%;
@@ -48,21 +33,23 @@
 
 {% block content %}
     <h1 style = "color: aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 1cm; padding-top: 3cm; font-size: 150%;">
-        Tryouts
+        <b>
+            Tryouts
+        </b>
     </h1>
 
     <a href = "{% url "creation" %}" style = "color: aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 2cm; font-size: 150%;">
-        <div class = "container" style = "background-color: indianred; padding: 1cm; width: 8cm; height: 2.5cm; align: center; text-align: center;">
+        <div class = "container" style = "background-color: indianred; width: 10cm; padding: 1cm; height: 2.5cm; align: center; text-align: center; word-wrap: break-word;">
             Create New Tryout
         </div>
     </a>
 
     {% if tryoutList %}
         {% for tryout in tryoutList %}
-        <div style = "background-color: indianred; margin-top: 0.5cm; width: 7cm; border: 1cm;">
+        <div style = "background-color: indianred; margin-top: 0.5cm; border: 1cm;">
             <a href = "{% url "tryoutDetails" tryout.id %}">
-                <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
-                    {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }}
+                <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.25cm; font-size: 100%; white-space:nowrap;">
+                    {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }} || Category: {{ tryout.tryoutCategory }} || Date of Creation: {{ tryout.creationDate}}
                 </b>
             </a>
         </div>

@@ -6,8 +6,8 @@
 
 {% block styles %}
     .topnav {
-    overflow: hidden;
-    background-color: darkslategrey;
+        overflow: hidden;
+        background-color: darkslategrey;
     }
     
     .topnav a {
@@ -47,6 +47,9 @@
         <a href = "{% url "searchByCategory" name %}" style = "color: aliceblue;">
             Search By Quiz Category
         </a>
+        <a href = "{% url "searchByDate" name %}" style = "color: aliceblue;">
+            Search By Date of Creation
+        </a>
 
         <div style = "float: right">
             <form action = "">
@@ -60,11 +63,11 @@
 {% block content %} 
     {% if tryoutList %}
         {% for tryout in tryoutList %}
-            {% if name.strip in tryout.tryoutName.strip %}
-                <div style = "background-color: indianred; margin-top: 0.5cm; width: 7cm; border: 1cm;">
+            {% if name.strip.lower in tryout.tryoutName.strip.lower %}
+                <div style = "background-color: indianred; margin-top: 0.5cm; border: 1cm;">
                     <a href = "{% url "tryoutDetails" tryout.id %}">
-                        <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
-                            {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }}
+                        <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.25cm; font-size: 100%;">
+                            {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }} || Category: {{ tryout.tryoutCategory }} || Date of Creation: {{ tryout.creationDate}}
                         </b>
                     </a>
                 </div>

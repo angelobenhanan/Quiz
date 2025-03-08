@@ -7,20 +7,29 @@
 
     <form method = "POST" style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%; padding-top: 2cm;">
         {% csrf_token %}
-        <label>
-            Tryout Name:
-        </label>
-        {{ creationForm.tryoutName }}
+        <!-- meminta nama tryout -->
+        <div class = "tryoutName">
+            <label>
+                Tryout Name:
+            </label>
+            {{ creationForm.tryoutName }}
+        </div>
 
-        <label>
-            Tryout Description:
-        </label>
-        {{ creationForm.tryoutDesc }}
+        <!-- meminta deskripsi tryout -->
+        <div class = "tryoutDesc">
+            <label>
+                Tryout Description:
+            </label>
+            {{ creationForm.tryoutDesc }}
+        </div>
 
-        <label>
-            Tryout Category:
-        </label>
-        {{ creationForm.tryoutCategory }}
+        <!-- menampilkan daftar pilihan kategori -->
+        <div class = "tryoutCategory">
+            <label>
+                Tryout Category:
+            </label>
+            {{ creationForm.tryoutCategory }}
+        </div>
 
         <input type = "submit" value = "Create">
     </form>

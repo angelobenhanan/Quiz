@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>
+        <h1 style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 1cm; font-size: 200%;">
+            Question Number {{ questionId }}
+        </h1>
+    </div>
+
+    <!-- tombol untuk kembali ke TryoutDetails dan berhenti membuat soal -->
+    <div>
+        <a href = "{% url "questionDetails" tryoutId %}" style = "background-color: indianred; color: aliceblue; font-size: 150%; padding: 0.125cm;">
+            Back
+        </a>
+    </div>
+
+    <form method = "POST" style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%; padding-top: 2cm;">
+        {% csrf_token %}
+        <!-- meminta soal -->
+        <div class = "creationForm.questionTxt">
+            <label>
+                Question:
+            </label>
+            {{ creationForm.questionTxt }}
+        </div>
+
+        <!-- meminta jawaban yang benar -->
+        <div class = "creationForm.answer">
+            <label>
+                Correct answer:
+            </label>
+            {{ creationForm.answer }}
+        </div>
+
+        <input type = "submit" value = "Create">
+    </form>
+{% endblock %}

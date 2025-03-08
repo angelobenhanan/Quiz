@@ -41,13 +41,13 @@
 
 {% block extraHead %}
     <div class = "topnav">
-        <a href = "{% url "searchByName" category %}" style = "color: aliceblue;">
+        <a href = "{% url "searchByName" date %}" style = "color: aliceblue;">
             Search By Quiz Name
         </a>
-        <a class = "active" href = "{% url "searchByCategory" category %}">
+        <a href = "{% url "searchByCategory" date %}" style = "color: aliceblue;">
             Search By Quiz Category
         </a>
-        <a href = "{% url "searchByDate" category %}" style = "color: aliceblue;">
+        <a class = "active" href = "{% url "searchByDate" date %}">
             Search By Date of Creation
         </a>
 
@@ -63,7 +63,7 @@
 {% block content %} 
     {% if tryoutList %}
         {% for tryout in tryoutList %}
-            {% if category.strip.lower in tryout.tryoutCategory.strip.lower %}
+            {% if date.strip.lower in tryout.creationDate.lower %}
                 <div style = "background-color: indianred; margin-top: 0.5cm; border: 1cm;">
                     <a href = "{% url "tryoutDetails" tryout.id %}">
                         <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.25cm; font-size: 100%;">

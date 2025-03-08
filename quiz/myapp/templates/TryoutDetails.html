@@ -2,7 +2,9 @@
 
 {% block content %} 
     <h1 style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 2cm; font-size: 200%;">
-        {{ tryoutViewed.tryoutName }}
+        <b>
+            {{ tryoutViewed.tryoutName }}
+        </b>
     </h1>
 
     <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%; padding-top: 1cm;">
@@ -34,21 +36,32 @@
         {% endif %}
     </p>
 
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%;">
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; margin: 0.5cm; font-size: 100%;">
         Edit tryout
     </p>
 
-    <div style = "background-color: indianred; margin-top: 0.5cm; width: 5cm;">
+    <div style = "background-color: indianred;  margin: 1cm; width: 5cm;">
         <a href = "{% url "editor" tryoutViewed.id %}">
-            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
+            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center; margin: 0.5cm; font-size: 100%; word-wrap: break-word;">
                 Edit Tryout
             </b>
         </a>
     </div>
 
-    <div style = "background-color: indianred; margin-top: 0.5cm; width: 5cm;">
+    {% if tryoutViewed.workedOn == False %}
+        <div style = "background-color: indianred; margin: 1cm; width: 5cm;">
+            <a href = "{% url "questionDetails" tryoutViewed.id %}">
+                <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center; margin: 0.5cm; font-size: 100%; word-wrap: break-word;">
+                    View Questions
+                </b>
+            </a>
+        </div>
+
+    {% endif %}
+
+    <div style = "background-color: indianred; margin: 1cm; width: 5cm;">
         <a href = "{% url "delete" tryoutViewed.id %}">
-            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
+            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center; margin: 0.5cm; font-size: 100%; word-wrap: break-word;">
                 Delete Tryout
             </b>
         </a>
