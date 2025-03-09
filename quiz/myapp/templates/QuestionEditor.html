@@ -1,8 +1,26 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    .questionNum {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        padding-top: 1cm; 
+        font-size: 200%;
+    }
+
+    .main {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        font-size: 100%; 
+        padding-top: 2cm;
+    }
+{% endblock %}
+
 {% block content %}
-    <div>
-        <h1 style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 1cm; font-size: 200%;">
+    <div class = "questionNum">
+        <h1>
             Question Number {{ questionId }}
         </h1>
     </div>
@@ -14,10 +32,10 @@
         </a>
     </div>
 
-    <form method = "POST" style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%; padding-top: 2cm;">
+    <form method = "POST" class = "main">
         {% csrf_token %}
         <!-- meminta soal -->
-        <div class = "editorForm.questionTxt">
+        <div>
             <label>
                 Question:
             </label>
@@ -25,7 +43,7 @@
         </div>
 
         <!-- meminta jawaban yang benar -->
-        <div class = "editorForm.answer">
+        <div>
             <label>
                 Correct answer:
             </label>
@@ -35,9 +53,9 @@
         <input type = "submit" value = "Edit">
 
         <!-- tombol untuk hapus soal -->
-        <div style = "background-color: indianred; margin: 1cm; width: 4cm;">
+        <div style = "background-color: indianred; margin: 1cm; max-width: 4cm;">
             <a href = "{% url "deleteQuestion" tryoutId questionId %}">
-                <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center; margin: 0.5cm; font-size: 100%;">
+                <b style = "text-align: center; margin: 0.5cm; color: aliceblue;">
                     Delete
                 </b>
             </a>

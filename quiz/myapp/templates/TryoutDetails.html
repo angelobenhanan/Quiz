@@ -1,70 +1,124 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    .details {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        height: fit-content;
+    }
+
+    .details h1 {
+        padding-top: 2cm; 
+        font-size: 200%;
+    }
+
+    .details p {
+        color:aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        font-size: 100%; 
+        padding-top: 0.5cm; 
+    }
+
+    .details .buttons {
+        background-color: indianred; 
+        margin: 1cm; 
+        height: fit-content;
+        width: fit-content;
+    }
+
+    .details .buttons a {
+        color: aliceblue;
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        float: center;
+        margin: 0.5cm; 
+        font-size: 100%;
+        padding-top: 1cm; 
+        padding-bottom: 1cm; 
+    }
+
+{% endblock %}
+
 {% block content %} 
-    <h1 style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 2cm; font-size: 200%;">
-        <b>
-            {{ tryoutViewed.tryoutName }}
-        </b>
-    </h1>
-
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%; padding-top: 1cm;">
-        Date of creation:
-        {{ tryoutViewed.creationDate }}
-    </p>
-
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%;">
-        Category:
-        {{ tryoutViewed.tryoutCategory }}
-    </p>
-
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%;">
-        Number of questions: 
-        {{ tryoutViewed.tryoutNums }}
-    </p>
-
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%;">
-        Tryout description:
-        {{ tryoutViewed.tryoutDesc }}
-    </p>
-
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%;">
-        Tryout submission status:
-        {% if tryoutViewed.workedOn == True %}
-            Has been worked on
-        {% else %}
-            No work recorded
-        {% endif %}
-    </p>
-
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; margin: 0.5cm; font-size: 100%;">
-        Edit tryout
-    </p>
-
-    <div style = "background-color: indianred;  margin: 1cm; width: 5cm;">
-        <a href = "{% url "editor" tryoutViewed.id %}">
-            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center; margin: 0.5cm; font-size: 100%; word-wrap: break-word;">
-                Edit Tryout
+    <div class = "details">
+        <h1>
+            <b>
+                {{ tryoutViewed.tryoutName }}
             </b>
-        </a>
-    </div>
+        </h1>
 
-    {% if tryoutViewed.workedOn == False %}
-        <div style = "background-color: indianred; margin: 1cm; width: 5cm;">
-            <a href = "{% url "questionDetails" tryoutViewed.id %}">
-                <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center; margin: 0.5cm; font-size: 100%; word-wrap: break-word;">
-                    View Questions
+        <p>
+            Date of creation:
+            {{ tryoutViewed.creationDate }}
+        </p>
+
+        <p>
+            Category:
+            {{ tryoutViewed.tryoutCategory }}
+        </p>
+
+        <p>
+            Number of questions: 
+            {{ tryoutViewed.tryoutNums }}
+        </p>
+
+        <p>
+            Tryout description:
+            {{ tryoutViewed.tryoutDesc }}
+        </p>
+
+        <p>
+            Tryout submission status:
+            {% if tryoutViewed.workedOn == True %}
+                Has been worked on
+            {% else %}
+                No work recorded
+            {% endif %}
+        </p>
+
+        <p>
+            Latest result:
+            {{ tryoutViewed.latestResult }}
+        </p>
+
+        <p>
+            Best result:
+            {{ tryoutViewed.bestResult }}
+        </p>
+
+        <div class = "buttons">
+            <a href = "{% url "doTryout" tryoutViewed.id %}">
+                <b class = "tryoutDetail">
+                    Start
                 </b>
             </a>
         </div>
 
-    {% endif %}
-
-    <div style = "background-color: indianred; margin: 1cm; width: 5cm;">
-        <a href = "{% url "delete" tryoutViewed.id %}">
-            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center; margin: 0.5cm; font-size: 100%; word-wrap: break-word;">
-                Delete Tryout
+        <h1>
+            <b>
+                Edit tryout
             </b>
-        </a>
-    </div>
+        </h1>
 
+        <div class = "buttons">
+            <a href = "{% url "editor" tryoutViewed.id %}">
+                Edit Tryout
+            </a>
+        </div>
+
+        {% if tryoutViewed.workedOn == False %}
+            <div class = "buttons">
+                <a href = "{% url "questionDetails" tryoutViewed.id %}">
+                    View Questions
+                </a>
+            </div>
+
+        {% endif %}
+
+        <div class = "buttons">
+            <a href = "{% url "delete" tryoutViewed.id %}">
+                Delete Tryout
+            </a>
+        </div>
 {% endblock %}

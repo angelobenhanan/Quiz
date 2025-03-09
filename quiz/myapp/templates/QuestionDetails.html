@@ -1,5 +1,34 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    .buttons {
+        background-color: indianred; 
+        color: aliceblue; 
+        font-size: 150%; 
+        padding: 0.5cm; 
+        margin-top: 1cm;
+        height: fit-content;
+    }
+    
+    .buttons a {
+        color: aliceblue; 
+    }
+
+    .questions {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: center; 
+        padding: 0.125cm; 
+        font-size: 100%; 
+        height: fit-content;
+        width: fit-content;
+    }
+
+    .questions a {
+        color: aliceblue;
+    }
+{% endblock %}
+
 {% block content %}
     <h1 style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 2cm; font-size: 200%;">
         <b>
@@ -8,37 +37,39 @@
     </h1>
 
     <!-- tombol untuk kembali ke TryoutDetails dan berhenti membuat soal -->
-    <div>
-        <a href = "{% url "tryoutDetails" tryout.id %}" style = "background-color: indianred; color: aliceblue; font-size: 150%; padding: 0.125cm; word-wrap: break-word;">
-            Back
+    <div class = "buttons">
+        <a href = "{% url "tryoutDetails" tryout.id %}">
+            <b>
+                Back
+            </b>
         </a>
     </div>
 
     <!-- tombol untuk menambah soal -->
-    <div style = "background-color: indianred; margin: 1cm; width: 4cm;">
+    <div class = "buttons">
         <a href = "{% url "questionCreation" tryout.id questionIndex %}">
-            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center; margin: 0.5cm; font-size: 100%; word-wrap: break-word;">
+            <b>
                 Add Question
             </b>
         </a>
     </div>
 
-    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; margin: 0.5cm; font-size: 100%;">
-        Edit tryout
+    <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; margin-top: 1cm; font-size: 150%;">
+        Edit questions
     </p>
 
     {% if questions %}
         {% for question in questions %}
-        <div style = "background-color: indianred; margin-top: 0.5cm; border: 1cm;">
+        <div class = "questions" style = "background-color: indianred; margin-top: 0.5cm; border: 1cm;">
             <a href = "{% url "questionEditor" tryout.id question.id %}">
-                <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center; padding: 0.125cm; font-size: 100%; white-space:nowrap;">
+                <b>
                     {{question.questionTxt }} || Answer: {{ question.answer }}
                 </b>
             </a>
         </div>
         {% endfor %}
     {% else %}
-        <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: center; padding: 0.125cm; font-size: 100%; word-wrap: break-word;">
+        <b class = "questions">
             No questions made
         </b>
     {% endif %}

@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block styles %}
-.topnav {
+    .topnav {
     overflow: hidden;
     background-color: darkslategrey;
     }
 
     .topnav input[type=text] {
         font-size: 100%;
+        background-color: indianred;
+        color: aliceblue;
     }
     
     @media screen and (max-width: 600px) {
@@ -16,8 +18,67 @@
             text-align: left;
             width: 100%;
             border: 0.1cm;
+            border-color: indianred;
+            background-color: indianred;
+            color: aliceblue;  
         }
     }
+
+    .title {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; t
+        ext-align: left; 
+        padding: 1cm; 
+        padding-top: 3cm; 
+        font-size: 250%; 
+        max-width: 100%;
+    }
+
+    .createTryout {
+        align: center;
+        background-color: indianred;
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: center; 
+        padding-top: 1cm; 
+        padding-bottom: 1cm; 
+        font-size: 150%; 
+        max-width: 10cm;
+        left: 50%;
+        float: center;
+        border: 0.1cm;
+        border-color: darkslategrey;
+        border-style: solid;
+    }
+
+    .createTryout a {
+        color: aliceblue;
+        padding-bottom: 1cm; 
+    }
+
+    .tryoutBox {
+        background-color: indianred; 
+        margin: 1cm; 
+        margin-top: 1cm; 
+        max-width: 30cm;
+        height: fit-content
+        white-space: nowrap; 
+        font-size: 100vp;
+        border: 0.25cm;
+        border-color: darkslategrey;
+        border-style: double;
+        padding: 1cm;
+        padding-top: 1cm;
+        padding-bottom: 1cm;
+    }
+
+    .tryoutBox .tryoutDetail {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        padding: 0.5cm; 
+        padding-top: 0.5cm; 
+    }
+
 {% endblock %}
 
 {% block extraHead %}
@@ -25,39 +86,57 @@
         <div style = "float: right">
             <form action = "">
                 <input type = "text" name = "searchBy" placeholder = "Search..." value = "{{request.GET.searchBy}}">
-                <input type = "submit" value = "Search">
+                <input type = "submit" value = "Search" style = "background-color: indianred; border-color: indianred; color: aliceblue;">
             </form>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
-    <h1 style = "color: aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 1cm; padding-top: 3cm; font-size: 150%;">
+    <h1 class = "title">
         <b>
             Tryouts
         </b>
     </h1>
 
-    <a href = "{% url "creation" %}" style = "color: aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 2cm; font-size: 150%;">
-        <div class = "container" style = "background-color: indianred; width: 10cm; padding: 1cm; height: 2.5cm; align: center; text-align: center; word-wrap: break-word;">
+    <div class = "createTryout">
+        <a href = "{% url "creation" %}">
             Create New Tryout
-        </div>
-    </a>
+        </a>
+    </div>
 
-    {% if tryoutList %}
-        {% for tryout in tryoutList %}
-        <div style = "background-color: indianred; margin-top: 0.5cm; border: 1cm;">
-            <a href = "{% url "tryoutDetails" tryout.id %}">
-                <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.25cm; font-size: 100%; white-space:nowrap;">
+    <div style = "min-height: 7cm;">
+        {% if tryoutList %}
+            {% for tryout in tryoutList %}
+            <div class = "tryoutBox">
+                <b class = "tryoutDetail">
                     {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }} || Category: {{ tryout.tryoutCategory }} || Date of Creation: {{ tryout.creationDate}}
                 </b>
-            </a>
-        </div>
-        {% endfor %}
-    {% else %}
-        <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
-            No quiz to show
-        </b>
-    {% endif %}
+
+                {% if tryout.tryoutNums != 0 %}
+                    <div style = "max-width: 3cm; text-align: center; margin-top: 1cm;">
+                        <a href = "{% url "doTryout" tryout.id %}">
+                            <b class = "tryoutDetail">
+                                Start
+                            </b>
+                        </a>
+                    </div>
+                {% endif %}
+
+                <div style = "max-width: 3cm; text-align: center; margin-top: 0.5cm; margin-bottom: 0.5cm">
+                    <a href = "{% url "tryoutDetails" tryout.id %}">
+                        <b class = "tryoutDetail">
+                            Details
+                        </b>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
+                No quiz to show
+            </b>
+        {% endif %}
+    </div>
 
 {% endblock %}

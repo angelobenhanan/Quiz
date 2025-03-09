@@ -77,3 +77,10 @@ class QuestionCreationForm(forms.Form):
     def checkAnswer(self):
         answer = self.cleaned_data["answer"]
         return answer
+    
+class DoTryoutForm(forms.Form):
+    answer = forms.ChoiceField(widget=forms.RadioSelect, choices=answers, label=("Answer: "), required=True)
+
+    def checkAnswer(self):
+        answer = self.cleaned_data["answer"]
+        return answer

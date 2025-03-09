@@ -29,7 +29,7 @@
         font-size: 100%;
     }
     
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 10cm) {
         .topnav input[type=text] {
             display: block;
             text-align: left;
@@ -60,22 +60,24 @@
     </div>
 {% endblock %}
 
-{% block content %} 
-    {% if tryoutList %}
-        {% for tryout in tryoutList %}
-            {% if name.strip.lower in tryout.tryoutName.strip.lower %}
-                <div style = "background-color: indianred; margin-top: 0.5cm; border: 1cm;">
-                    <a href = "{% url "tryoutDetails" tryout.id %}">
-                        <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.25cm; font-size: 100%;">
-                            {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }} || Category: {{ tryout.tryoutCategory }} || Date of Creation: {{ tryout.creationDate}}
-                        </b>
-                    </a>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-        <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
-            No quiz to show
-        </b>
-    {% endif %}
+{% block content %}
+    <div style = "padding-top: 1cm">
+        {% if tryoutList %}
+            {% for tryout in tryoutList %}
+                {% if name.strip.lower in tryout.tryoutName.strip.lower %}
+                    <div style = "background-color: indianred; margin-top: 0.5cm; border: 1cm; height: fit-content;">
+                        <a href = "{% url "tryoutDetails" tryout.id %}">
+                            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.25cm; font-size: 100%;">
+                                {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }} || Category: {{ tryout.tryoutCategory }} || Date of Creation: {{ tryout.creationDate}}
+                            </b>
+                        </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <b style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding: 0.125cm; font-size: 100%;">
+                No quiz to show
+            </b>
+        {% endif %}
+    </div>
 {% endblock %}

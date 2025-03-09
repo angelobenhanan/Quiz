@@ -1,7 +1,11 @@
+from myapp.serializers import Serializer
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
 from .models import Tryout, Question
-from .forms import TryoutCreationForm, TryoutEditingForm, QuestionCreationForm
+from .forms import TryoutCreationForm, TryoutEditingForm, QuestionCreationForm, DoTryoutForm
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework import viewsets
 import datetime
 
 #main menu
@@ -10,7 +14,7 @@ def home(request):
 
     for tryout in tryoutList:
         tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
-        questions = Question.objects.filter(tryout = tryout).order_by("-id")
+        questions = Question.objects.filter(tryout = tryout).order_by("questionNum")
         for i, value in enumerate(questions):
             value.id = i + 1
     
@@ -121,6 +125,18 @@ def searchByDate(request, date):
             return render(request, "SearchByName.html", {"tryoutList": tryoutList, "name": tryoutSearch})
     return render(request, "SearchByDate.html", {"tryoutList": tryoutList, "date": date})
 
+#menampilkan semua soal dari suatu tryout
+def questionDetails(request, tryoutId):
+    tryout = get_object_or_404(Tryout, pk = tryoutId)
+    questions = Question.objects.filter(tryout = tryout).order_by("questionNum")
+
+    #membuat id menjadi berdasarkan nomor urut
+    for i, value in enumerate(questions):
+        value.id = i + 1
+
+    index = Question.objects.filter(tryout = tryout).count() + 1
+    return render(request, "QuestionDetails.html", {"tryout": tryout, "questions": questions, "questionIndex": index})
+
 #form pembuatan soal
 def createQuestion(request, tryoutId, questionId):
     if request.method == "POST":
@@ -131,10 +147,14 @@ def createQuestion(request, tryoutId, questionId):
             txt = creationForm.cleaned_data["questionTxt"]
             answer = creationForm.cleaned_data["answer"]
 
-            question = Question(tryout = tryout, questionTxt = txt, questionNum = questionId, answer = answer)
+            tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
+
+            question = Question(tryout = tryout, questionTxt = txt, questionNum = (tryout.tryoutNums + 1), answer = answer)
             question.save()
 
-            return render(request, "QuestionCreation.html", {"tryoutId": tryoutId, "questionId": (questionId + 1), "creationForm": QuestionCreationForm()})
+            tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
+
+            return render(request, "QuestionCreation.html", {"tryoutId": tryoutId, "questionId": (tryout.tryoutNums + 1), "creationForm": QuestionCreationForm()})
     else:
         creationForm = QuestionCreationForm()
     return render(request, "QuestionCreation.html", {"tryoutId": tryoutId, "questionId": questionId, "creationForm": creationForm})
@@ -161,22 +181,10 @@ def editQuestion(request, tryoutId, questionId):
         editorForm = QuestionCreationForm()
     return render(request, "QuestionEditor.html", {"tryoutId": tryoutId, "questionId": questionId, "editorForm": editorForm })
 
-#menampilkan semua soal dari suatu tryout
-def questionDetails(request, tryoutId):
-    tryout = get_object_or_404(Tryout, pk = tryoutId)
-    questions = Question.objects.filter(tryout = tryout).order_by("-id")
-
-    #membuat id menjadi berdasarkan nomor urut
-    for i, value in enumerate(questions):
-        value.id = i + 1
-
-    index = Question.objects.filter(tryout = tryout).count() + 1
-    return render(request, "QuestionDetails.html", {"tryout": tryout, "questions": questions, "questionIndex": index})
-
 #menghapus tryout
 def deleteQuestion(request, tryoutId, questionId):
     tryout = get_object_or_404(Tryout, pk = tryoutId)
-    questions = Question.objects.filter(tryout = tryout).order_by("-id")
+    questions = Question.objects.filter(tryout = tryout).order_by("questionNum")
 
     question = get_object_or_404(questions, pk = questionId)
     question.delete()
@@ -187,3 +195,84 @@ def deleteQuestion(request, tryoutId, questionId):
 
     index = Question.objects.filter(tryout = tryout).count() + 1
     return render(request, "QuestionDetails.html", {"tryout": tryout, "questions": questions, "questionIndex": index})
+
+def doTryout(request, tryoutId):
+    tryout = get_object_or_404(Tryout, pk = tryoutId)
+    questions = Question.objects.filter(tryout = tryout).order_by("questionNum")
+    
+    correctAnswers = []
+    for question in questions:
+        correctAnswers.append(question.answer)
+
+    if request.method == "POST":
+        tryoutForm = DoTryoutForm(request.POST)
+        userAnswers = []
+        for question in questions:
+            userAnswer = request.POST.get(str(question.questionNum))
+            userAnswers.append(userAnswer)
+    
+        points = 0
+        for i in range(len(userAnswers)):
+            if userAnswers[i] == correctAnswers[i]:
+                points += 1
+
+        score = (points / Question.objects.filter(tryout = tryout).count()) * 100
+
+        tryout.workedOn = True
+        tryout.latestResult = score
+        if score > tryout.bestResult:
+            tryout.bestResult = score
+
+        tryout.save()
+
+        return render(request, "TryoutDetails.html", {"tryoutViewed": tryout})
+
+    else:
+        tryoutForm = DoTryoutForm()
+    return render(request, "DoTryout.html", {"tryoutId": tryoutId, "tryoutForm": tryoutForm, "questions": questions})
+
+#untuk Swagger API documentation
+class GetMethod(viewsets.ModelViewSet):
+    for model in [Tryout, Question]:
+        queryset = model.objects.all()
+        serializer_class = Serializer
+
+        def list(self, request, model=model, *args, **kwargs):
+            data = list(model.objects.all().values())
+            return Response(data)
+
+        def retrieve(self, request, model=model, *args, **kwargs):
+            data = list(model.objects.filter(id=kwargs['pk']).values())
+            return Response(data)
+
+        def create(self, request, *args, **kwargs):
+            product_serializer_data = Serializer(data=request.data)
+            if product_serializer_data.is_valid():
+                product_serializer_data.save()
+                status_code = status.HTTP_201_CREATED
+                return Response({"message": "Product Added Sucessfully", "status": status_code})
+            else:
+                status_code = status.HTTP_400_BAD_REQUEST
+                return Response({"message": "please fill the datails", "status": status_code})
+
+        def destroy(self, request, model=model, *args, **kwargs):
+            product_data = model.objects.filter(id=kwargs['pk'])
+            if product_data:
+                product_data.delete()
+                status_code = status.HTTP_201_CREATED
+                return Response({"message": "Product delete Sucessfully", "status": status_code})
+            else:
+                status_code = status.HTTP_400_BAD_REQUEST
+                return Response({"message": "Product data not found", "status": status_code})
+
+        def update(self, request, model=model, *args, **kwargs):
+            product_details = model.objects.get(id=kwargs['pk'])
+            product_serializer_data = Serializer(
+                product_details, data=request.data, partial=True)
+            if product_serializer_data.is_valid():
+                product_serializer_data.save()
+                status_code = status.HTTP_201_CREATED
+                return Response({"message": "Product Update Sucessfully", "status": status_code})
+            else:
+                status_code = status.HTTP_400_BAD_REQUEST
+                return Response({"message": "Product data Not found", "status": status_code})

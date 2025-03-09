@@ -1,36 +1,48 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    .details {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        padding-top: 2cm; 
+        height: fit-content;
+    }
+{% endblock %}
+
 {% block content %}
-    <h1 style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 2cm; font-size: 200%;">
-        Tryout Creation Form
-    </h1>
+    <div class = "details">
+        <h1 style = "font-size: 200%;">
+            Tryout Creation Form
+        </h1>
 
-    <form method = "POST" style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%; padding-top: 2cm;">
-        {% csrf_token %}
-        <!-- meminta nama tryout -->
-        <div class = "tryoutName">
-            <label>
-                Tryout Name:
-            </label>
-            {{ editorForm.tryoutName }}
-        </div>
+        <form method = "POST" style = "font-size: 100%;">
+            {% csrf_token %}
+            <!-- meminta nama tryout -->
+            <div class = "tryoutName">
+                <label>
+                    Tryout Name:
+                </label>
+                {{ editorForm.tryoutName }}
+            </div>
 
-        <!-- meminta deskripsi tryout -->
-        <div class = "tryoutDesc">
-            <label>
-                Tryout Description:
-            </label>
-            {{ editorForm.tryoutDesc }}
-        </div>
+            <!-- meminta deskripsi tryout -->
+            <div class = "tryoutDesc">
+                <label>
+                    Tryout Description:
+                </label>
+                {{ editorForm.tryoutDesc }}
+            </div>
 
-        <!-- menampilkan daftar pilihan kategori -->
-        <div class = "tryoutCategory">
-            <label>
-                Tryout Category:
-            </label>
-            {{ editorForm.tryoutCategory }}
-        </div>
+            <!-- menampilkan daftar pilihan kategori -->
+            <div class = "tryoutCategory">
+                <label>
+                    Tryout Category:
+                </label>
+                {{ editorForm.tryoutCategory }}
+            </div>
 
-        <input type = "submit" value = "Edit">
-    </form>
+            <input type = "submit" value = "Edit">
+        </form>
+    </div>
 {% endblock %}

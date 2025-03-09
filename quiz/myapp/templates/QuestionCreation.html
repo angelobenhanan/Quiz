@@ -1,8 +1,28 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    .questionNum {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        padding-top: 1cm; 
+        font-size: 200%;
+        height: fit-content;
+    }
+
+    .main {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        font-size: 100%; 
+        padding-top: 2cm;
+        height: fit-content;
+    }
+{% endblock %}
+
 {% block content %}
-    <div>
-        <h1 style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; padding-top: 1cm; font-size: 200%;">
+    <div class = "questionNum">
+        <h1>
             Question Number {{ questionId }}
         </h1>
     </div>
@@ -14,10 +34,10 @@
         </a>
     </div>
 
-    <form method = "POST" style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; font-size: 100%; padding-top: 2cm;">
+    <form method = "POST" class = "main">
         {% csrf_token %}
         <!-- meminta soal -->
-        <div class = "creationForm.questionTxt">
+        <div>
             <label>
                 Question:
             </label>
@@ -25,7 +45,7 @@
         </div>
 
         <!-- meminta jawaban yang benar -->
-        <div class = "creationForm.answer">
+        <div>
             <label>
                 Correct answer:
             </label>

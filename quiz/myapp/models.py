@@ -7,6 +7,8 @@ class Tryout(models.Model):
     tryoutCategory = models.CharField(max_length=100, editable=True)
     creationDate = models.CharField(max_length=100, editable=False)
     workedOn = models.BooleanField(default=False, editable=True)
+    latestResult = models.IntegerField(default=0, editable=True)
+    bestResult = models.IntegerField(default=0, editable=True)
 
     def __str__(self):
         return self.tryoutName

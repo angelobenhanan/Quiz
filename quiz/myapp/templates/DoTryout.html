@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    .question {
+        background-color: indianred;
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        padding: 0.5cm;
+        padding-top: 0.5cm;
+        padding-bottom: 0.5cm;
+        margin-top: 1cm;
+        height: fit-content;
+        border: 0.25cm;
+        border-color: darkslategrey;
+        border-style: double;
+    }
+{% endblock %}
+
+{% block  content %}
+    <form method = "POST">
+        {% csrf_token %}
+        {% for question in questions %}
+            <div class = "question">
+                <b>
+                    Number {{ question.questionNum }}
+                </b>
+
+                <div>
+                    <label>
+                        Question:
+                    </label>
+                    {{ question.questionTxt }}
+                </div>
+
+                <div>
+                    <label>
+                        Answer:
+                    </label>
+
+                    <input type = "radio" id = "answer" name = "{{ question.questionNum }}" value = "True">
+                    <label for = "answer"> True </label>
+
+                    <input type = "radio" id = "answer" name = "{{ question.questionNum }}" value = "False">
+                    <label for = "answer"> False </label>
+                </div>
+            </div>
+        {% endfor %}
+
+        <input type = "submit" value = "Submit Work" style = "margin-top: 1cm; background-color: indianred; border-color: indianred; color: aliceblue;">
+    </form>
+{% endblock  %}
