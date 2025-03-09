@@ -1,11 +1,12 @@
-from myapp.serializers import Serializer
+from myapp.serializers import TryoutSerializer, QuestionSerializer
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
 from .models import Tryout, Question
 from .forms import TryoutCreationForm, TryoutEditingForm, QuestionCreationForm, DoTryoutForm
-from rest_framework.response import Response
 from rest_framework import status
-from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from drf_yasg.utils import swagger_auto_schema
 import datetime
 
 #main menu
@@ -231,48 +232,135 @@ def doTryout(request, tryoutId):
         tryoutForm = DoTryoutForm()
     return render(request, "DoTryout.html", {"tryoutId": tryoutId, "tryoutForm": tryoutForm, "questions": questions})
 
-#untuk Swagger API documentation
-class GetMethod(viewsets.ModelViewSet):
-    for model in [Tryout, Question]:
-        queryset = model.objects.all()
-        serializer_class = Serializer
+#untuk Swagger API documentation 
+class TryoutListAPIView(APIView):
+    @swagger_auto_schema(
+        operation_description="Retrieve all Tryout instances", 
+        responses={200: TryoutSerializer(many=True)} 
+    )
+    def get(self, request):
+        models = Tryout.objects.all()  
+        serializer = TryoutSerializer(models, many=True)  
+        return Response(serializer.data)  
 
-        def list(self, request, model=model, *args, **kwargs):
-            data = list(model.objects.all().values())
-            return Response(data)
+    @swagger_auto_schema(
+        operation_description="Create a new Tryout instance",  
+        request_body=TryoutSerializer,  
+        responses={201: TryoutSerializer, 400: 'Bad Request'}  
+    )
+    def post(self, request):
+        serializer = TryoutSerializer(data=request.data) 
+        if serializer.is_valid(): 
+            serializer.save()  
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
-        def retrieve(self, request, model=model, *args, **kwargs):
-            data = list(model.objects.filter(id=kwargs['pk']).values())
-            return Response(data)
+    @swagger_auto_schema(
+        operation_description="Update an existing Question instance", 
+        request_body=TryoutSerializer,  
+        responses={200: TryoutSerializer, 400: 'Bad Request', 404: 'Not Found'}  
+    )
+    def put(self, request, pk=None):
+        if pk and Tryout.objects.filter(id=int(pk)).exists(): 
+            qs = Tryout.objects.get(id=int(pk)) 
+            serializer = TryoutSerializer(qs, data=request.data, partial=True) 
+            if serializer.is_valid():  
+                serializer.save()  
+                return Response({
+                    'message': 'Successfully updated',  
+                    'error': None,
+                    'data': serializer.data
+                }, status=status.HTTP_200_OK)  
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
-        def create(self, request, *args, **kwargs):
-            product_serializer_data = Serializer(data=request.data)
-            if product_serializer_data.is_valid():
-                product_serializer_data.save()
-                status_code = status.HTTP_201_CREATED
-                return Response({"message": "Product Added Sucessfully", "status": status_code})
-            else:
-                status_code = status.HTTP_400_BAD_REQUEST
-                return Response({"message": "please fill the datails", "status": status_code})
+        return Response({
+            'message': 'Provide a valid pk',  
+            'error': 'Not Found', 
+            'data': None
+        }, status=status.HTTP_404_NOT_FOUND) 
+    
+    @swagger_auto_schema(
+        operation_description="Delete an existing Question instance", 
+        responses={200: 'Deleted successfully', 404: 'Not Found'} 
+    )
+    def delete(self, request, pk=None):
+        if pk and Tryout.objects.filter(id=int(pk)).exists(): 
+            qs = Tryout.objects.get(id=int(pk))
+            qs.delete()  
+            return Response({
+                'message': 'Deleted successfully',  
+                'error': None,
+                'data': None
+            }, status=status.HTTP_200_OK) 
 
-        def destroy(self, request, model=model, *args, **kwargs):
-            product_data = model.objects.filter(id=kwargs['pk'])
-            if product_data:
-                product_data.delete()
-                status_code = status.HTTP_201_CREATED
-                return Response({"message": "Product delete Sucessfully", "status": status_code})
-            else:
-                status_code = status.HTTP_400_BAD_REQUEST
-                return Response({"message": "Product data not found", "status": status_code})
+        return Response({
+            'message': 'Provide a valid pk',  
+            'error': 'Not Found', 
+            'data': None
+        }, status=status.HTTP_404_NOT_FOUND)  
+    
+class QuestionListAPIView(APIView):
+    @swagger_auto_schema(
+        operation_description="Retrieve all Question instances", 
+        responses={200: QuestionSerializer(many=True)} 
+    )
+    def get(self, request):
+        models = Question.objects.all()  
+        serializer = QuestionSerializer(models, many=True)  
+        return Response(serializer.data)  
 
-        def update(self, request, model=model, *args, **kwargs):
-            product_details = model.objects.get(id=kwargs['pk'])
-            product_serializer_data = Serializer(
-                product_details, data=request.data, partial=True)
-            if product_serializer_data.is_valid():
-                product_serializer_data.save()
-                status_code = status.HTTP_201_CREATED
-                return Response({"message": "Product Update Sucessfully", "status": status_code})
-            else:
-                status_code = status.HTTP_400_BAD_REQUEST
-                return Response({"message": "Product data Not found", "status": status_code})
+    @swagger_auto_schema(
+        operation_description="Create a new Question instance",  
+        request_body=QuestionSerializer,  
+        responses={201: QuestionSerializer, 400: 'Bad Request'}  
+    )
+    def post(self, request):
+        serializer = QuestionSerializer(data=request.data) 
+        if serializer.is_valid(): 
+            serializer.save()  
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+    @swagger_auto_schema(
+        operation_description="Update an existing Question instance", 
+        request_body=QuestionSerializer,  
+        responses={200: QuestionSerializer, 400: 'Bad Request', 404: 'Not Found'}  
+    )
+    def put(self, request, pk=None):
+        if pk and Question.objects.filter(id=int(pk)).exists(): 
+            qs = Question.objects.get(id=int(pk)) 
+            serializer = QuestionSerializer(qs, data=request.data, partial=True) 
+            if serializer.is_valid():  
+                serializer.save()  
+                return Response({
+                    'message': 'Successfully updated',  
+                    'error': None,
+                    'data': serializer.data
+                }, status=status.HTTP_200_OK)  
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+        return Response({
+            'message': 'Provide a valid pk',  
+            'error': 'Not Found', 
+            'data': None
+        }, status=status.HTTP_404_NOT_FOUND) 
+    
+    @swagger_auto_schema(
+        operation_description="Delete an existing Question instance", 
+        responses={200: 'Deleted successfully', 404: 'Not Found'} 
+    )
+    def delete(self, request, pk=None):
+        if pk and Question.objects.filter(id=int(pk)).exists(): 
+            qs = Question.objects.get(id=int(pk))
+            qs.delete()  
+            return Response({
+                'message': 'Deleted successfully',  
+                'error': None,
+                'data': None
+            }, status=status.HTTP_200_OK) 
+
+        return Response({
+            'message': 'Provide a valid pk',  
+            'error': 'Not Found', 
+            'data': None
+        }, status=status.HTTP_404_NOT_FOUND) 
