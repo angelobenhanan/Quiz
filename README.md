@@ -10,3 +10,4 @@ Panduan Instalasi:
 6. Masukan ke terminal:  source .venv/bin/activate 
 7. Masukan ke terminal:  cd quiz 
 8. Masukan ke terminal:  python manage.py runserver 
+9. Click link development server yang muncul
