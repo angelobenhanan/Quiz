@@ -83,6 +83,12 @@
 
 {% block extraHead %}
     <div class = "topnav">
+        <!-- signup & login -->
+        <div style = "float: right">
+            
+        </div>
+
+        <!-- search bar -->
         <div style = "float: right">
             <form action = "">
                 <input type = "text" name = "searchBy" placeholder = "Search..." value = "{{ request.GET.searchBy }}">
@@ -98,7 +104,7 @@
             Tryouts
         </b>
     </h1>
-
+    
     <div class = "createTryout">
         <a href = "{% url "creation" %}">
             Create New Tryout

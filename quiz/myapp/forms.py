@@ -84,3 +84,27 @@ class DoTryoutForm(forms.Form):
     def checkAnswer(self):
         answer = self.cleaned_data["answer"]
         return answer
+    
+class SignupForm(forms.Form):
+    username = forms.CharField(max_length= 100)
+    password = forms.CharField(max_length= 100)
+
+    def checkUsername(self):
+        username = self.cleaned_data["username"]
+        return username
+    
+    def checkPassword(self):
+        password = self.cleaned_data["password"]
+        return password
+    
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length= 100)
+    password = forms.CharField(max_length= 100)
+
+    def checkUsername(self):
+        username = self.cleaned_data["username"]
+        return username
+    
+    def checkPassword(self):
+        password = self.cleaned_data["password"]
+        return password

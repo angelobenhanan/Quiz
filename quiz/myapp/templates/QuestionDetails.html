@@ -46,13 +46,15 @@
     </div>
 
     <!-- tombol untuk menambah soal -->
-    <div class = "buttons">
-        <a href = "{% url "questionCreationTF" tryout.id questionIndex %}">
-            <b>
-                Add Question
-            </b>
-        </a>
-    </div>
+    {% if tryout.workedOn == False %}
+        <div class = "buttons">
+            <a href = "{% url "questionCreationTF" tryout.id questionIndex %}">
+                <b>
+                    Add Question
+                </b>
+            </a>
+        </div>
+    {% endif %}
 
     <p style = "color:aliceblue; font-family: Verdana, Geneva, Tahoma, sans-serif; text-align: left; margin-top: 1cm; font-size: 150%;">
         Edit questions
@@ -61,24 +63,40 @@
     {% if questions %}
         {% for question in questions %}
         <div class = "questions" style = "background-color: indianred; margin-top: 0.5cm; border: 1cm;">
-            {% if question.questionType == "TF" %}
-                <a href = "{% url "questionEditorTF" tryout.id question.id %}">
-                    <b>
-                        {{question.questionTxt }} || Answer: {{ question.answer }}
-                    </b>
-                </a>
-            {% elif question.questionType == "MC" %}
-                <a href = "{% url "questionEditorMC" tryout.id question.id %}">
-                    <b>
-                        {{question.questionTxt }} || Answer: {{ question.answer }}
-                    </b>
-                </a>
+            {% if tryout.workedOn == False %}
+                {% if question.questionType == "TF" %}
+                    <a href = "{% url "questionEditorTF" tryout.id question.id %}">
+                        <b>
+                            {{question.questionTxt }} || Answer: {{ question.answer }}
+                        </b>
+                    </a>
+                {% elif question.questionType == "MC" %}
+                    <a href = "{% url "questionEditorMC" tryout.id question.id %}">
+                        <b>
+                            {{question.questionTxt }} || Answer: {{ question.answer }}
+                        </b>
+                    </a>
+                {% else %}
+                    <a href = "{% url "questionEditorEssay" tryout.id question.id %}">
+                        <b>
+                            {{question.questionTxt }} || Answer: {{ question.answer }}
+                        </b>
+                    </a>
+                {% endif %}
             {% else %}
-                <a href = "{% url "questionEditorEssay" tryout.id question.id %}">
-                    <b>
-                        {{question.questionTxt }} || Answer: {{ question.answer }}
-                    </b>
-                </a>
+                {% if question.questionType == "TF" %}
+                    <a href = "{% url "questionEditorTF" tryout.id question.id %}">
+                            {{question.questionTxt }} || Answer: {{ question.answer }}
+                    </a>
+                {% elif question.questionType == "MC" %}
+                    <a href = "{% url "questionEditorMC" tryout.id question.id %}">
+                            {{question.questionTxt }} || Answer: {{ question.answer }}
+                    </a>
+                {% else %}
+                    <a href = "{% url "questionEditorEssay" tryout.id question.id %}">
+                            {{question.questionTxt }} || Answer: {{ question.answer }}
+                    </a>
+                {% endif %}
             {% endif %}
         </div>
         {% endfor %}

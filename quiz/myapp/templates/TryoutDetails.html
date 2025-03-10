@@ -109,15 +109,14 @@
             </a>
         </div>
 
-        {% if tryoutViewed.workedOn == False %}
-            <div class = "buttons">
-                <a href = "{% url "questionDetails" tryoutViewed.id %}">
-                    View Questions
-                </a>
-            </div>
+        
+        <div class = "buttons">
+            <a href = "{% url "questionDetails" tryoutViewed.id %}">
+                View Questions
+            </a>
+        </div>
 
-        {% endif %}
-
+        
         <div class = "buttons">
             <a href = "{% url "delete" tryoutViewed.id %}">
                 Delete Tryout

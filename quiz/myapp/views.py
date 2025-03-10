@@ -2,7 +2,7 @@ from myapp.serializers import TryoutSerializer, QuestionSerializer
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Count
 from .models import Tryout, Question
-from .forms import TryoutCreationForm, TryoutEditingForm, QuestionCreationForm, DoTryoutForm
+from .forms import *
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
