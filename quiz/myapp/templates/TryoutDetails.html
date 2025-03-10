@@ -87,6 +87,7 @@
             {{ tryoutViewed.bestResult }}
         </p>
 
+        <!-- tryout tidak bisa di-start jika tidak ada soal -->
         {% if tryoutViewed.tryoutNums != 0 %}
             <div class = "buttons">
                 <a href = "{% url "doTryout" tryoutViewed.id %}">

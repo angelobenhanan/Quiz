@@ -60,10 +60,12 @@
         Edit questions
     </p>
 
+    <!-- mengecheck jumlah soal dan menampilkan masing-masing soal -->
     {% if questions %}
         {% for question in questions %}
         <div class = "questions" style = "background-color: indianred; margin-top: 0.5cm; border: 1cm;">
             {% if tryout.workedOn == False %}
+            <!-- agar soal bisa diedit -->
                 {% if question.questionType == "TF" %}
                     <a href = "{% url "questionEditorTF" tryout.id question.id %}">
                         <b>
@@ -83,6 +85,7 @@
                         </b>
                     </a>
                 {% endif %}
+            <!-- agar soal tidak bisa diedit -->
             {% else %}
                 {% if question.questionType == "TF" %}
                     <b>

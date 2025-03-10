@@ -46,6 +46,7 @@
 
 {% block extraHead %}
     <div class = "topnav">
+        <!-- topnav untuk mencari berdasarkan tipe lain -->
         <a href = "{% url "searchByName" date %}" style = "color: aliceblue;">
             Search By Quiz Name
         </a>
@@ -56,6 +57,7 @@
             Search By Date of Creation
         </a>
 
+        <!-- search bar -->
         <div style = "float: right">
             <form action = "">
                 <input type = "text" name = "searchBy" placeholder = {{ date }} value = "{{request.GET.searchBy}}">
@@ -69,6 +71,7 @@
     <div style = "padding-top: 1cm">
         {% if tryoutList %}
             {% for tryout in tryoutList %}
+                <!-- mengecheck tanggal pembuatan setiap soal -->
                 {% if date.strip.lower in tryout.creationDate.lower %}
                     <div style = "background-color: indianred; margin-top: 0.5cm; border: 1cm; height: fit-content;">
                         <a href = "{% url "tryoutDetails" tryout.id %}">

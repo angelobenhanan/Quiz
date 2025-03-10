@@ -100,6 +100,7 @@
         </b>
     </h1>
     
+    <!-- tombol membuat tryout -->
     <div class = "createTryout">
         <a href = "{% url "creation" %}">
             Create New Tryout
@@ -107,6 +108,7 @@
     </div>
 
     <div style = "min-height: 7cm;">
+        <!-- mengecheck jumlah tryout dan menampilkan masing-masing tryout -->
         {% if tryoutList %}
             {% for tryout in tryoutList %}
             <div class = "tryoutBox">
@@ -114,6 +116,7 @@
                     {{ tryout.tryoutName }} || Questions: {{ tryout.tryoutNums }} || Category: {{ tryout.tryoutCategory }} || Date of Creation: {{ tryout.creationDate}}
                 </b>
 
+                <!-- tryout tidak bisa di-start jika tidak ada soal -->
                 {% if tryout.tryoutNums != 0 %}
                     <div style = "max-width: 3cm; text-align: center; margin-top: 1cm;">
                         <a href = "{% url "doTryout" tryout.id %}">

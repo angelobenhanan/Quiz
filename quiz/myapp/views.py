@@ -333,11 +333,14 @@ def doTryout(request, tryoutId):
 
     if request.method == "POST":
         tryoutForm = DoTryoutForm(request.POST)
+
+        #mengambil jawaban user
         userAnswers = []
         for question in questions:
             userAnswer = request.POST[str(question.questionNum)]
             userAnswers.append(userAnswer)
     
+        #menilai hasil pengerjaan user
         points = 0
         for i in range(len(userAnswers)):
             if userAnswers[i] == correctAnswers[i]:
@@ -346,6 +349,7 @@ def doTryout(request, tryoutId):
         score = (points / Question.objects.filter(tryout = tryout).count()) * 100
         score = round(score, 2)
 
+        #menyimpan hasil pengerjaan dan menentukan nilai tertinggi
         tryout.workedOn = True
         tryout.latestResult = score
         if score > tryout.bestResult:

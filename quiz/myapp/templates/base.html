@@ -42,13 +42,10 @@
     </style>
 
     <header>
+        <!-- judul akan mengembalikan user ke main menu jika diclick -->
         <a href = "{% url "home" %}" style = "font-size: 300%; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: left; color: aliceblue; margin: 1cm;">
             FUN QUIZ
         </a>
-
-        <b style = "font-size: 100%; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: right; color: aliceblue; margin: 1cm;">
-
-        </b>
 
         {% block extraHead %} {% endblock %}
     </header>
@@ -60,6 +57,8 @@
 
         <script src = "https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" ></script>
+
+        <!-- membuat web page bisa discroll -->
         <script>
             window.onscroll = function() {myFunction()};3
             function myFunction() {
@@ -71,7 +70,7 @@
 
     </body>
 
-    <!-- Footer halaman berisi identitas -->
+    <!-- footer halaman berisi identitas -->
     <footer>
         <div style = "margin: 1cm;">
             <p style = "color:aliceblue; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-align: center; font-size:125%;">
