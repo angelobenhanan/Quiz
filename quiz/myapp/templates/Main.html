@@ -2,8 +2,8 @@
 
 {% block styles %}
     .topnav {
-    overflow: hidden;
-    background-color: darkslategrey;
+        overflow: hidden;
+        background-color: darkslategrey;
     }
 
     .topnav input[type=text] {
@@ -85,7 +85,7 @@
     <div class = "topnav">
         <div style = "float: right">
             <form action = "">
-                <input type = "text" name = "searchBy" placeholder = "Search..." value = "{{request.GET.searchBy}}">
+                <input type = "text" name = "searchBy" placeholder = "Search..." value = "{{ request.GET.searchBy }}">
                 <input type = "submit" value = "Search" style = "background-color: indianred; border-color: indianred; color: aliceblue;">
             </form>
         </div>

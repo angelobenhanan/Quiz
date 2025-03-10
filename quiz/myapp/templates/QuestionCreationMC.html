@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    .topnav {
+        overflow: hidden;
+        background-color: darkslategrey;
+    }
+
+    .topnav a {
+        float: left;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        font-size: 100%%;
+        padding: 0.5cm;
+        color: aliceblue;
+    }
+
+    .topnav a.active {
+        background-color: indianred;
+        color: aliceblue;
+    }
+
+    .buttons {
+        background-color: indianred; 
+        color: aliceblue; 
+        font-size: 150%; 
+        padding: 0.5cm; 
+        margin-top: 1cm;
+        height: fit-content;
+    }
+
+    .questionNum {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        padding-top: 1cm; 
+        font-size: 200%;
+        height: fit-content;
+    }
+
+    .main {
+        color: aliceblue; 
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        text-align: left; 
+        font-size: 100%; 
+        padding-top: 2cm;
+        height: fit-content;
+    }
+{% endblock %}
+
+{% block extraHead %}
+    <div class = "topnav">
+        <a href = "{% url "questionCreationTF" tryoutId questionId %}">
+            True-or-False Question
+        </a>
+        <a class = "active" href = "{% url "questionCreationMC" tryoutId questionId %}" style = "color: aliceblue;">
+            Multiple Choice Question
+        </a>
+        <a href = "{% url "questionCreationEssay" tryoutId questionId %}" style = "color: aliceblue;">
+            Essay Question
+        </a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class = "questionNum">
+        <h1>
+            Question Number {{ questionId }}
+        </h1>
+    </div>
+
+    <!-- tombol untuk kembali ke TryoutDetails dan berhenti membuat soal -->
+    <div>
+        <a href = "{% url "questionDetails" tryoutId %}" style = "background-color: indianred; color: aliceblue; font-size: 150%; padding: 0.125cm;">
+            Back
+        </a>
+    </div>
+
+    <form method = "POST" class = "main">
+        {% csrf_token %}
+        <!-- meminta soal -->
+        <div>
+            <label>
+                Question:
+            </label>
+            
+            <input type = "text" name = "question" placeholder = "Input question here">
+        </div>
+
+        <div style = "padding-top: 0.5cm;">
+            <label>
+                Choice 1:
+            </label>
+            
+            <input type = "text" name = "choice1" placeholder = "Input choice here">
+        </div>
+
+        <div>
+            <label>
+                Choice 2:
+            </label>
+            
+            <input type = "text" name = "choice2" placeholder = "Input choice here">
+        </div>
+
+        <div>
+            <label>
+                Choice 3:
+            </label>
+            
+            <input type = "text" name = "choice3" placeholder = "Input choice here">
+        </div>
+
+        <div>
+            <label>
+                Choice 4:
+            </label>
+            
+            <input type = "text" name = "choice4" placeholder = "Input choice here">
+        </div>
+
+        <!-- meminta jawaban yang benar -->
+        <div style = "padding-top: 0.5cm;">
+            <label>
+                Correct answer:
+            </label>
+
+            <div>
+                <input type = "radio" id = "true" name = "answer" value = "choice1">
+                <label for = "true"> Choice 1 </label>
+            </div>
+
+            <div>
+            <input type = "radio" id = "false" name = "answer" value = "choice2">
+            <label for = "false"> Choice 2 </label>
+            </div>
+
+            <div>
+            <input type = "radio" id = "true" name = "answer" value = "choice3">
+            <label for = "true"> Choice 3 </label>
+            </div>
+
+            <div>
+            <input type = "radio" id = "false" name = "answer" value = "choice4">
+            <label for = "false"> Choice 4 </label>
+            </div>
+        </div>
+
+        <input type = "submit" value = "Create" style = "background-color: indianred; border-color: indianred; color: aliceblue;">
+    </form>
+{% endblock %}

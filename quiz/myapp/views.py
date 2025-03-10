@@ -29,6 +29,12 @@ def home(request):
 #display untuk masing-masing tryout
 def tryoutDetails(request, tryoutId):
     tryoutViewed = get_object_or_404(Tryout, pk = tryoutId)
+    
+    #membuat id menjadi berdasarkan nomor urut
+    questions = Question.objects.filter(tryout = tryoutViewed).order_by("questionNum")
+    for i, value in enumerate(questions):
+        value.id = i + 1
+    
     tryoutViewed.tryoutNums = Question.objects.filter(tryout = tryoutViewed).count()
     return render(request, "TryoutDetails.html", {"tryoutViewed": tryoutViewed})
 
@@ -42,10 +48,11 @@ def createTryout(request):
             desc = creationForm.cleaned_data["tryoutDesc"]
             category = creationForm.cleaned_data["tryoutCategory"]
 
-            #membuat tanggal pembuatan menjadi bentuk string
+            #mengambil dan merapikan tanggal
             dateUnformatted = datetime.date.today().strftime("%d/%m/%Y")
             dateUnformatted = dateUnformatted.split("/")
 
+            #membuat bulan menjadi bentuk string
             month = dateUnformatted[1]
             if (month[0] == 0):
                 month = month[1]
@@ -53,10 +60,12 @@ def createTryout(request):
                              "07":"July","08":"August", "09":"September", "10":"October", "11":"November", "12":"December"}
             monthStr = monthToStr[month]
             
+            #mengambil tanggal
             date = dateUnformatted[0]
             if (date[0] == 0):
                 date = date[1]
             
+            #menyusun tanggal lengkap
             newDate = str(date) + " " + monthStr + " " + str(dateUnformatted[2])
 
             newTryout = Tryout(tryoutName = name, tryoutNums = 0, tryoutDesc = desc, tryoutCategory = category, creationDate = newDate, workedOn = False)
@@ -138,49 +147,166 @@ def questionDetails(request, tryoutId):
     index = Question.objects.filter(tryout = tryout).count() + 1
     return render(request, "QuestionDetails.html", {"tryout": tryout, "questions": questions, "questionIndex": index})
 
-#form pembuatan soal
-def createQuestion(request, tryoutId, questionId):
+#form pembuatan soal true-false
+def createQuestionTF(request, tryoutId, questionId):
     if request.method == "POST":
         creationForm = QuestionCreationForm(request.POST)
         tryout = get_object_or_404(Tryout, pk = tryoutId)
 
-        if (creationForm.is_valid()):
-            txt = creationForm.cleaned_data["questionTxt"]
-            answer = creationForm.cleaned_data["answer"]
+        #mengambil soal dan jawaban
+        txt = request.POST["question"]
+        answer = request.POST["answer"]
 
-            tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
+        #membuat soal
+        tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
+        question = Question(tryout = tryout, questionTxt = txt, questionNum = (tryout.tryoutNums + 1), questionType = "TF", answer = answer)
+        question.save()
 
-            question = Question(tryout = tryout, questionTxt = txt, questionNum = (tryout.tryoutNums + 1), answer = answer)
-            question.save()
-
-            tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
-
-            return render(request, "QuestionCreation.html", {"tryoutId": tryoutId, "questionId": (tryout.tryoutNums + 1), "creationForm": QuestionCreationForm()})
+        tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
+        return render(request, "QuestionCreationTF.html", {"tryoutId": tryoutId, "questionId": (tryout.tryoutNums + 1), "creationForm": QuestionCreationForm()})
     else:
         creationForm = QuestionCreationForm()
-    return render(request, "QuestionCreation.html", {"tryoutId": tryoutId, "questionId": questionId, "creationForm": creationForm})
+    return render(request, "QuestionCreationTF.html", {"tryoutId": tryoutId, "questionId": questionId, "creationForm": creationForm})
 
-#form edit soal
-def editQuestion(request, tryoutId, questionId):
+#form pembuatan soal pilihan ganda
+def createQuestionMC(request, tryoutId, questionId):
     if request.method == "POST":
-        editorForm = QuestionCreationForm(request.POST)
+        creationForm = QuestionCreationForm(request.POST)
         tryout = get_object_or_404(Tryout, pk = tryoutId)
-        question = get_object_or_404(Question, pk = questionId)
 
-        if (editorForm.is_valid()):
-            txt = editorForm.cleaned_data["questionTxt"]
-            answer = editorForm.cleaned_data["answer"]
+        #mengambil soal dan pilihan
+        txt = request.POST["question"]
+        choice1 = request.POST["choice1"]
+        choice2 = request.POST["choice2"]
+        choice3 = request.POST["choice3"]
+        choice4 = request.POST["choice4"]
 
-            question.questionTxt = txt
-            question.answer = answer
-            question.save()
+        #mengambil dan menetapkan jawaban
+        answer = request.POST["answer"]
+        if (answer == "choice1"):
+            answer = choice1
+        elif (answer == "choice2"):
+            answer = choice2
+        elif (answer == "choice3"):
+            answer = choice3
+        else:
+            answer = choice4
 
-            questions = Question.objects.filter(tryout = tryout)
-            index = Question.objects.filter(tryout = tryout).count() + 1
-            return render(request, "QuestionDetails.html", {"tryout": tryout, "questions": questions, "questionIndex": index})
+        #membuat soal
+        tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
+        question = Question(tryout = tryout, questionTxt = txt, questionNum = (tryout.tryoutNums + 1), questionType = "MC", answer = answer, choice1 = choice1, choice2 = choice2, choice3 = choice3, choice4 = choice4)
+        question.save()
+
+        tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
+        return render(request, "QuestionCreationTF.html", {"tryoutId": tryoutId, "questionId": (tryout.tryoutNums + 1), "creationForm": QuestionCreationForm()})
     else:
-        editorForm = QuestionCreationForm()
-    return render(request, "QuestionEditor.html", {"tryoutId": tryoutId, "questionId": questionId, "editorForm": editorForm })
+        creationForm = QuestionCreationForm()
+    return render(request, "QuestionCreationMC.html", {"tryoutId": tryoutId, "questionId": questionId, "creationForm": creationForm})
+
+#form pembuatan soal esai
+def createQuestionEssay(request, tryoutId, questionId):
+    if request.method == "POST":
+        creationForm = QuestionCreationForm(request.POST)
+        tryout = get_object_or_404(Tryout, pk = tryoutId)
+
+        #mengambil soal dan jawaban
+        txt = request.POST["question"]
+        answer = request.POST["answer"]
+
+        #membuat soal
+        tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
+        question = Question(tryout = tryout, questionTxt = txt, questionNum = (tryout.tryoutNums + 1), questionType = "Essay", answer = answer)
+        question.save()
+
+        tryout.tryoutNums = Question.objects.filter(tryout = tryout).count()
+        return render(request, "QuestionCreationTF.html", {"tryoutId": tryoutId, "questionId": (tryout.tryoutNums + 1), "creationForm": QuestionCreationForm()})
+    else:
+        creationForm = QuestionCreationForm()
+    return render(request, "QuestionCreationEssay.html", {"tryoutId": tryoutId, "questionId": questionId, "creationForm": creationForm})
+
+#form edit soal true-false
+def editQuestionTF(request, tryoutId, questionId):
+    if request.method == "POST":
+        creationForm = QuestionCreationForm(request.POST)
+        tryout = get_object_or_404(Tryout, pk = tryoutId)
+        questions = Question.objects.filter(tryout = tryout)
+        question = get_object_or_404(questions, pk = questionId)
+
+        #mengambil soal dan jawaban
+        txt = request.POST["question"]
+        answer = request.POST["answer"]
+
+        question.questionTxt = txt
+        question.answer = answer
+        question.save()
+
+        index = Question.objects.filter(tryout = tryout).count() + 1
+        return render(request, "QuestionDetails.html", {"tryout": tryout, "questions": questions, "questionIndex": index})
+    else:
+        creationForm = QuestionCreationForm()
+    return render(request, "QuestionCreationTF.html", {"tryoutId": tryoutId, "questionId": questionId, "creationForm": creationForm})
+
+#form pembuatan soal pilihan ganda
+def editQuestionMC(request, tryoutId, questionId):
+    if request.method == "POST":
+        creationForm = QuestionCreationForm(request.POST)
+        tryout = get_object_or_404(Tryout, pk = tryoutId)
+        questions = Question.objects.filter(tryout = tryout)
+        question = get_object_or_404(questions, pk = questionId)
+
+        #mengambil soal dan pilihan
+        txt = request.POST["question"]
+        choice1 = request.POST["choice1"]
+        choice2 = request.POST["choice2"]
+        choice3 = request.POST["choice3"]
+        choice4 = request.POST["choice4"]
+
+        #mengambil dan menetapkan jawaban
+        answer = request.POST["answer"]
+        if (answer == "choice1"):
+            answer = choice1
+        elif (answer == "choice2"):
+            answer = choice2
+        elif (answer == "choice3"):
+            answer = choice3
+        else:
+            answer = choice4
+
+        question.questionTxt = txt
+        question.choice1 = choice1
+        question.choice2 = choice2
+        question.choice3 = choice3
+        question.choice4 = choice4
+        question.answer = answer
+        question.save()
+
+        index = Question.objects.filter(tryout = tryout).count() + 1
+        return render(request, "QuestionDetails.html", {"tryout": tryout, "questions": questions, "questionIndex": index})
+    else:
+        creationForm = QuestionCreationForm()
+    return render(request, "QuestionCreationMC.html", {"tryoutId": tryoutId, "questionId": questionId, "creationForm": creationForm})
+
+#form pembuatan soal esai
+def editQuestionEssay(request, tryoutId, questionId):
+    if request.method == "POST":
+        creationForm = QuestionCreationForm(request.POST)
+        tryout = get_object_or_404(Tryout, pk = tryoutId)
+        questions = Question.objects.filter(tryout = tryout)
+        question = get_object_or_404(questions, pk = questionId)
+
+        #mengambil soal dan jawaban
+        txt = request.POST["question"]
+        answer = request.POST["answer"]
+
+        question.questionTxt = txt
+        question.answer = answer
+        question.save()
+
+        index = Question.objects.filter(tryout = tryout).count() + 1
+        return render(request, "QuestionDetails.html", {"tryout": tryout, "questions": questions, "questionIndex": index})
+    else:
+        creationForm = QuestionCreationForm()
+    return render(request, "QuestionCreationEssay.html", {"tryoutId": tryoutId, "questionId": questionId, "creationForm": creationForm})
 
 #menghapus tryout
 def deleteQuestion(request, tryoutId, questionId):
@@ -209,7 +335,7 @@ def doTryout(request, tryoutId):
         tryoutForm = DoTryoutForm(request.POST)
         userAnswers = []
         for question in questions:
-            userAnswer = request.POST.get(str(question.questionNum))
+            userAnswer = request.POST[str(question.questionNum)]
             userAnswers.append(userAnswer)
     
         points = 0
@@ -218,6 +344,7 @@ def doTryout(request, tryoutId):
                 points += 1
 
         score = (points / Question.objects.filter(tryout = tryout).count()) * 100
+        score = round(score, 2)
 
         tryout.workedOn = True
         tryout.latestResult = score

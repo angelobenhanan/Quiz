@@ -39,7 +39,7 @@
             <label>
                 Question:
             </label>
-            {{ editorForm.questionTxt }}
+            <input type = "text" name = "question" placeholder = {{ editorForm.questionTxt }} value = "{{request.GET.question}}">
         </div>
 
         <!-- meminta jawaban yang benar -->
@@ -47,7 +47,12 @@
             <label>
                 Correct answer:
             </label>
-            {{ editorForm.answer }}
+
+            <input type = "radio" id = "answer" name = "{{ answer }}" value = "True">
+            <label for = "answer"> True </label>
+
+            <input type = "radio" id = "answer" name = "{{ answer }}" value = "False">
+            <label for = "answer"> False </label>
         </div>
 
         <input type = "submit" value = "Edit">

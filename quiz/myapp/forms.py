@@ -64,7 +64,7 @@ class TryoutEditingForm(forms.Form):
     
 class QuestionCreationForm(forms.Form):
     questionTxt = forms.CharField(max_length= 100)
-    answer = forms.ChoiceField(widget=forms.RadioSelect, choices=answers)
+    answer = forms.CharField(max_length= 100)
 
     #memastikan soal dan pilihan jawaban sesuai
     def checkTxtValid(self):

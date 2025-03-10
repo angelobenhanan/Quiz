@@ -33,17 +33,83 @@
                     {{ question.questionTxt }}
                 </div>
 
-                <div>
-                    <label>
-                        Answer:
-                    </label>
+                {% if question.questionType == "TF" %}
+                    <div style = "padding-top: 0.5cm;">
+                        <label>
+                            Answer:
+                        </label>
 
-                    <input type = "radio" id = "answer" name = "{{ question.questionNum }}" value = "True">
-                    <label for = "answer"> True </label>
+                        <div>
+                            <input type = "radio" id = "answer" name = "{{ question.questionNum }}" value = "True">
+                            <label for = "answer"> True </label>
+                        </div>
 
-                    <input type = "radio" id = "answer" name = "{{ question.questionNum }}" value = "False">
-                    <label for = "answer"> False </label>
-                </div>
+                        <div>
+                            <input type = "radio" id = "answer" name = "{{ question.questionNum }}" value = "False">
+                            <label for = "answer"> False </label>
+                        </div>
+                    </div>
+                {% elif question.questionType == "MC" %}
+                    <div style = "padding-top: 0.5cm;">
+                        <label>
+                            Answer:
+                        </label>
+
+                        <div>
+                            <label>
+                                Choice 1: {{ question.choice1 }}
+                            </label>
+                        </div>
+
+                        <div>
+                            <label>
+                                Choice 2: {{ question.choice2 }}
+                            </label>
+                        </div>
+
+                        <div>
+                            <label>
+                                Choice 3: {{ question.choice3 }}
+                            </label>
+                        </div>
+
+                        <div>
+                            <label>
+                                Choice 4: {{ question.choice4 }}
+                            </label>
+                        </div>
+
+                        <div style = "padding-top: 0.5cm;">
+                            <div>
+                                <input type = "radio" id = "answer" name = "{{ question.questionNum }}" value = "{{ question.choice1 }}">
+                                <label for = "answer"> Choice 1 </label>
+                            </div>
+
+                            <div>
+                                <input type = "radio" id = "answer" name = "{{ question.questionNum }}" value = "{{ question.choice2 }}">
+                                <label for = "answer"> Choice 2 </label>
+                            </div>
+
+                            <div>
+                                <input type = "radio" id = "answer" name = "{{ question.questionNum }}" value = "{{ question.choice3 }}">
+                                <label for = "answer"> Choice 3 </label>
+                            </div>
+
+                            <div>
+                                <input type = "radio" id = "answer" name = "{{ question.questionNum }}" value = "{{ question.choice4 }}">
+                                <label for = "answer"> Choice 4 </label>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div style = "padding-top: 0.5cm;">
+                        <label>
+                            Answer:
+                        </label>
+                        
+                        <input type = "text" name = "{{ question.questionNum }}" placeholder = "Input answer here">
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
 

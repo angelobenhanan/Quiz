@@ -27,14 +27,19 @@
 
     .topnav input[type=text] {
         font-size: 100%;
+        background-color: indianred;
+        color: aliceblue;
     }
     
-    @media screen and (max-width: 10cm) {
+    @media screen and (max-width: 600px) {
         .topnav input[type=text] {
             display: block;
             text-align: left;
             width: 100%;
             border: 0.1cm;
+            border-color: indianred;
+            background-color: indianred;
+            color: aliceblue;  
         }
     }
 {% endblock %}
@@ -53,8 +58,8 @@
 
         <div style = "float: right">
             <form action = "">
-                <input type = "text" name = "searchBy" placeholder = "Search..." value = "{{request.GET.searchBy}}">
-                <input type = "submit" value = "Search">
+                <input type = "text" name = "searchBy" placeholder = {{ category }} value = "{{request.GET.searchBy}}">
+                <input type = "submit" value = "Search" style = "background-color: indianred; border-color: indianred; color: aliceblue;">
             </form>
         </div>
     </div>

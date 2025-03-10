@@ -47,7 +47,7 @@
 
     <!-- tombol untuk menambah soal -->
     <div class = "buttons">
-        <a href = "{% url "questionCreation" tryout.id questionIndex %}">
+        <a href = "{% url "questionCreationTF" tryout.id questionIndex %}">
             <b>
                 Add Question
             </b>
@@ -61,11 +61,25 @@
     {% if questions %}
         {% for question in questions %}
         <div class = "questions" style = "background-color: indianred; margin-top: 0.5cm; border: 1cm;">
-            <a href = "{% url "questionEditor" tryout.id question.id %}">
-                <b>
-                    {{question.questionTxt }} || Answer: {{ question.answer }}
-                </b>
-            </a>
+            {% if question.questionType == "TF" %}
+                <a href = "{% url "questionEditorTF" tryout.id question.id %}">
+                    <b>
+                        {{question.questionTxt }} || Answer: {{ question.answer }}
+                    </b>
+                </a>
+            {% elif question.questionType == "MC" %}
+                <a href = "{% url "questionEditorMC" tryout.id question.id %}">
+                    <b>
+                        {{question.questionTxt }} || Answer: {{ question.answer }}
+                    </b>
+                </a>
+            {% else %}
+                <a href = "{% url "questionEditorEssay" tryout.id question.id %}">
+                    <b>
+                        {{question.questionTxt }} || Answer: {{ question.answer }}
+                    </b>
+                </a>
+            {% endif %}
         </div>
         {% endfor %}
     {% else %}

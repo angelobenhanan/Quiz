@@ -87,13 +87,15 @@
             {{ tryoutViewed.bestResult }}
         </p>
 
-        <div class = "buttons">
-            <a href = "{% url "doTryout" tryoutViewed.id %}">
-                <b class = "tryoutDetail">
-                    Start
-                </b>
-            </a>
-        </div>
+        {% if tryoutViewed.tryoutNums != 0 %}
+            <div class = "buttons">
+                <a href = "{% url "doTryout" tryoutViewed.id %}">
+                    <b class = "tryoutDetail">
+                        Start
+                    </b>
+                </a>
+            </div>
+        {% endif %}
 
         <h1>
             <b>
