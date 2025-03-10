@@ -85,17 +85,17 @@
                 {% endif %}
             {% else %}
                 {% if question.questionType == "TF" %}
-                    <a href = "{% url "questionEditorTF" tryout.id question.id %}">
+                    <b>
                             {{question.questionTxt }} || Answer: {{ question.answer }}
-                    </a>
+                    </b>
                 {% elif question.questionType == "MC" %}
-                    <a href = "{% url "questionEditorMC" tryout.id question.id %}">
+                    <b>
                             {{question.questionTxt }} || Answer: {{ question.answer }}
-                    </a>
+                    </b>
                 {% else %}
-                    <a href = "{% url "questionEditorEssay" tryout.id question.id %}">
+                    <b>
                             {{question.questionTxt }} || Answer: {{ question.answer }}
-                    </a>
+                    </b>
                 {% endif %}
             {% endif %}
         </div>
